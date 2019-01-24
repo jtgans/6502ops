@@ -1,0 +1,1074 @@
+<html>
+  <head>
+    <title>6502 / 6510 / 8502 Opcode List</title>
+
+    <style>
+      body {
+          background-image: linear-gradient(#fed, #765);
+          font-family: sans-serif;
+      }
+
+      body > h1 {
+          width: 100%;
+          display: block;
+          text-align: center;
+          text-shadow: 2px 2px #888;
+          color: #000;
+      }
+
+      categories {
+          display: flex;
+          columns: 20px;
+          -webkit-columns: 20px;
+          -moz-columns: 20px;
+          flex-direction: column;
+          flex-wrap: wrap;
+          max-height: 95%;
+          width: 38.5em;
+          align-content: flex-start;
+          justify-content: flex-start;
+          background: #fff;
+          border: 1px solid #000;
+          padding: 1em;
+          margin: 0px auto 0px auto;
+      }
+
+      table th { color: white; }
+      table:nth-child(1) th { background-color: #800; }
+      table:nth-child(2) th { background-color: #e00; } 
+      table:nth-child(3) th { background-color: #e80; }
+      table:nth-child(4) th { background-color: #da0; }
+      table:nth-child(5) th { background-color: #4a4; }
+      table:nth-child(6) th { background-color: #2aa; }
+      table:nth-child(7) th { background-color: #06c; }
+      table:nth-child(8) th { background-color: #47c; }
+      table:nth-child(9) th { background-color: #82c; }
+      table:nth-child(10) th{ background-color: #a2c; }
+
+      table:nth-child(1) td { background-color: #e99; }
+      table:nth-child(2) td { background-color: #f88; } 
+      table:nth-child(3) td { background-color: #fb6; }
+      table:nth-child(4) td { background-color: #fc2; }
+      table:nth-child(5) td { background-color: #ada; }
+      table:nth-child(6) td { background-color: #aee; }
+      table:nth-child(7) td { background-color: #6ae; }
+      table:nth-child(8) td { background-color: #8af; }
+      table:nth-child(9) td { background-color: #cbf; }
+      table:nth-child(10) td{ background-color: #ebe; }
+
+      table {
+          width: 300px;
+          margin: 3px;
+          padding: 0px;
+          background-color: #000;
+      }
+
+      table td {
+          text-align: center;
+          margin: 0px;
+          padding: 5px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          cursor: pointer;
+      }
+
+      table th {
+          margin: 0px;
+          padding: 5px;
+          text-shadow: 1px 1px #333;
+      }
+
+      table tr {
+          margin: 0px;
+          padding: 0px;
+      }
+
+      footer {
+          display: block;
+          position: absolute;
+          text-align: center;
+          width: 100%;
+          bottom: 5px;
+          color: #fff;
+          font-size: small;
+      }
+
+      footer a {
+          color: #fff;
+          text-shadow: 1px 1px #333;
+      }
+
+      description {
+          display: none;
+          width: 75%;
+          height: 75%;
+          position: absolute;
+          top: 12.5%;
+          left: 12.5%;
+          border: 1px solid #000;
+          background: #fff;
+          box-shadow: 0 4px 8px 0 #333;
+      }
+
+      description closebutton {
+          display: block;
+          float: right;
+          margin: 10px;
+          padding: 8px;
+          color: #fff;
+          border: 1px solid #f00;
+          background-color: #f00;
+          background-image: linear-gradient(#f00, #faa);
+          text-shadow: 2px 2px #000;
+          cursor: pointer;
+          font-weight: 900;
+      }
+
+      description dt {
+          display: block;
+          padding: 10px;
+          font-size: 2em;
+          font-weight: bold;
+          background-image: linear-gradient(#dfd, #0a0);
+          text-shadow: 2px 2px #fff;
+      }
+
+      description dd {
+          display: block;
+          padding: 10px;
+          font-size: 1.5em;
+          font-weight: bold;
+          margin-bottom: 10px;
+          margin-left: 0px;
+      }
+
+      description flags {
+          display: block;
+          padding: 0px 0px 10px 10px;
+      }
+
+      description table {
+          width: 100%;
+          margin: 0px;
+          padding: 0px;
+          background-color: #fff;
+      }
+
+      description tr td {
+          text-align: left;
+      }
+
+      description table tr td:nth-child(2),
+      description table tr td:nth-child(3) {
+          font-family: monospace;
+          font-weight: bold;
+      }
+
+      description ol li {
+          font-size: small;
+      }
+
+      description p {
+          display: block;
+          overflow: scroll;
+          padding: 10px;
+          white-space: normal;
+      }
+    </style>
+
+    <script>
+      opcodes = {
+          "ADC": {
+              "mnemonic": "ADd with Carry",
+              "flags": [ "S", "V", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "ADC #$44",    "$69", 2, 2 ],
+                  [ "Zero Page",    "ADC $44",     "$65", 2, 3 ],
+                  [ "Zero Page, X", "ADC $44,X",   "$75", 2, 4 ],
+                  [ "Absolute",     "ADC $4400",   "$6D", 3, 4 ],
+                  [ "Absolute, X",  "ADC $4400,X", "$7D", 3, 4, 1 ],
+                  [ "Absolute, Y",  "ADC $4400,Y", "$79", 3, 4, 1 ],
+                  [ "Indirect, X",  "ADC ($44,X)", "$61", 2, 6 ],
+                  [ "Indirect, Y",  "ADC ($44),Y", "$71", 2, 5, 1 ],
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ],
+              "description": "ADC results are dependant on the setting of the\
+                  decimal flag. In decimal mode, addition is carried out on the\
+                  assumption that the values are packed BCD (Binary Coded Decimal).\
+                  \
+                  There is no way to add without carry.",
+          },
+          "AND": {
+              "mnemonic": "bitwise AND with accumulator",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "AND #$44",    "$29", 2, 2 ],
+                  [ "Zero Page",    "AND $44",     "$25", 2, 3 ],
+                  [ "Zero Page, X", "AND $44,X",   "$35", 2, 4 ],
+                  [ "Absolute",     "AND $4400",   "$2D", 3, 4 ],
+                  [ "Absolute, X",  "AND $4400,X", "$3D", 3, 4, 1 ],
+                  [ "Absolute, Y",  "AND $4400,Y", "$39", 3, 4, 1 ],
+                  [ "Indirect, X",  "AND ($44,X)", "$21", 2, 6 ],
+                  [ "Indirect, Y",  "AND ($44),Y", "$31", 2, 5, 1 ],
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ],
+          },
+          "ASL": {
+              "mnemonic": "Arithmetic Shift Left",
+              "flags": [ "S", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Accumulator",  "ASL A",       "$0A", 1, 2 ],
+                  [ "Zero Page",    "ASL $44",     "$06", 2, 5 ],
+                  [ "Zero Page, X", "ASL $44,X",   "$16", 2, 6 ],
+                  [ "Absolute",     "ASL $4400",   "$0E", 3, 6 ],
+                  [ "Absolute, X",  "ASL $4400,X", "$1E", 3, 7 ],
+              ],
+              "description": "ASL shifts all bits left one position. 0 is\
+                  shifted into bit 0 and the original bit 7 is shifted into the\
+                  Carry flag."
+          },
+          "BIT": {
+              "mnemonic": "test BITs",
+              "flags": [ "N", "V", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Zero Page",    "BIT $44",     "$24", 2, 3 ],
+                  [ "Absolute",     "BIT $4400",   "$2C", 3, 4 ],
+              ],
+              "description": "BIT sets the Z flag as though the value in the\
+                  address tested were ANDed with the accumulator. The S and V\
+                  flags are set to match bits 7 and 6 respectively in the value\
+                  stored at the tested address.\
+                  \
+                  BIT is often used to skip one or two following bytes as in:\
+                  \
+                  CLOSE1 LDX #$10   If entered here, we\
+                         .BYTE $2C  effectively perform\
+                  CLOSE2 LDX #$20   a BIT test on $20A2,\
+                         .BYTE $2C  another one on $30A2,\
+                  CLOSE3 LDX #$30   and end up with the X\
+                  CLOSEX LDA #12    register still at $10\
+                         STA ICCOM,X upon arrival here.\
+                  \
+                  Beware: a BIT instruction used in this way as a NOP does have\
+                  effects: the flags may be modified, and the read of the\
+                  absolute address, if it happens to access an I/O device, may\
+                  cause an unwanted action."
+          },
+
+          "BPL": {
+              "mnemonic": "Branch on PLus",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Relative",     "BPL $4400",   "$10", 2, 3, 1 ],
+              ],
+              "notes": [
+                  "A branch not taken requires two machine cycles. If the branch\
+                   is taken, add another cycle if it crosses a page boundary."
+              ],
+              "description": "All branches are relative mode and have a length\
+                  of two bytes. Branches are dependant on the status of the flag\
+                  bits when the op code is encountered.\
+                  \
+                  There is no BRA (BRanch Always) instruction, but it can be\
+                  easily emulated by branching on the basis of a known\
+                  condition. One of the best flags to use for this purpose is\
+                  oVerflow which is unchanged by all but addition and\
+                  subtraction operations.\
+                  \
+                  A page boundary crossing occurs when the branch destination is\
+                  on a different page than the instruction AFTER the branch\
+                  instruction. For example:\
+                  \
+                      SEC\
+                      BCS LABEL\
+                      NOP\
+                  \
+                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  when (the address of) LABEL and the NOP are on different\
+                  pages. This means that\
+                  \
+                            CLV\
+                            BVC LABEL\
+                      LABEL NOP\
+                  \
+                  the BVC instruction will take 3 cycles no matter what address\
+                  it is located at."
+          },
+          "BMI": {
+              "mnemonic": "Branch on MInus",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Relative",     "BMI $4400",   "$30", 2, 3, 1 ],
+              ],
+              "notes": [
+                  "A branch not taken requires two machine cycles. If the branch\
+                   is taken, add another cycle if it crosses a page boundary."
+              ],
+              "description": "All branches are relative mode and have a length\
+                  of two bytes. Branches are dependant on the status of the flag\
+                  bits when the op code is encountered.\
+\
+                  There is no BRA (BRanch Always) instruction, but it can be\
+                  easily emulated by branching on the basis of a known\
+                  condition. One of the best flags to use for this purpose is\
+                  oVerflow which is unchanged by all but addition and\
+                  subtraction operations.\
+\
+                  A page boundary crossing occurs when the branch destination is\
+                  on a different page than the instruction AFTER the branch\
+                  instruction. For example:\
+\
+                      SEC\
+                      BCS LABEL\
+                      NOP\
+\
+                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  when (the address of) LABEL and the NOP are on different\
+                  pages. This means that\
+\
+                            CLV\
+                            BVC LABEL\
+                      LABEL NOP\
+\
+                  the BVC instruction will take 3 cycles no matter what address\
+                  it is located at."
+          },
+          "BVC": {
+              "mnemonic": "Branch on oVerflow Clear",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Relative",     "BVC $4400",   "$50", 2, 3, 1 ],
+              ],
+              "notes": [
+                  "A branch not taken requires two machine cycles. If the branch\
+                   is taken, add another cycle if it crosses a page boundary."
+              ],
+              "description": "All branches are relative mode and have a length\
+                  of two bytes. Branches are dependant on the status of the flag\
+                  bits when the op code is encountered.\
+\
+                  There is no BRA (BRanch Always) instruction, but it can be\
+                  easily emulated by branching on the basis of a known\
+                  condition. One of the best flags to use for this purpose is\
+                  oVerflow which is unchanged by all but addition and\
+                  subtraction operations.\
+\
+                  A page boundary crossing occurs when the branch destination is\
+                  on a different page than the instruction AFTER the branch\
+                  instruction. For example:\
+\
+                      SEC\
+                      BCS LABEL\
+                      NOP\
+\
+                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  when (the address of) LABEL and the NOP are on different\
+                  pages. This means that\
+\
+                            CLV\
+                            BVC LABEL\
+                      LABEL NOP\
+\
+                  the BVC instruction will take 3 cycles no matter what address\
+                  it is located at."
+          },
+          "BVS": {
+              "mnemonic": "Branch on oVerflow Set",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Relative",     "BVS $4400",   "$70", 2, 3, 1 ],
+              ],
+              "notes": [
+                  "A branch not taken requires two machine cycles. If the branch\
+                   is taken, add another cycle if it crosses a page boundary."
+              ],
+              "description": "All branches are relative mode and have a length\
+                  of two bytes. Branches are dependant on the status of the flag\
+                  bits when the op code is encountered.\
+\
+                  There is no BRA (BRanch Always) instruction, but it can be\
+                  easily emulated by branching on the basis of a known\
+                  condition. One of the best flags to use for this purpose is\
+                  oVerflow which is unchanged by all but addition and\
+                  subtraction operations.\
+\
+                  A page boundary crossing occurs when the branch destination is\
+                  on a different page than the instruction AFTER the branch\
+                  instruction. For example:\
+\
+                      SEC\
+                      BCS LABEL\
+                      NOP\
+\
+                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  when (the address of) LABEL and the NOP are on different\
+                  pages. This means that\
+\
+                            CLV\
+                            BVC LABEL\
+                      LABEL NOP\
+\
+                  the BVC instruction will take 3 cycles no matter what address\
+                  it is located at."
+          },
+          "BCC": {
+              "mnemonic": "Branch on Carry Clear",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Relative",     "BCC $4400",   "$90", 2, 3, 1 ],
+              ],
+              "notes": [
+                  "A branch not taken requires two machine cycles. If the branch\
+                   is taken, add another cycle if it crosses a page boundary."
+              ],
+              "description": "All branches are relative mode and have a length\
+                  of two bytes. Branches are dependant on the status of the flag\
+                  bits when the op code is encountered.\
+\
+                  There is no BRA (BRanch Always) instruction, but it can be\
+                  easily emulated by branching on the basis of a known\
+                  condition. One of the best flags to use for this purpose is\
+                  oVerflow which is unchanged by all but addition and\
+                  subtraction operations.\
+\
+                  A page boundary crossing occurs when the branch destination is\
+                  on a different page than the instruction AFTER the branch\
+                  instruction. For example:\
+\
+                      SEC\
+                      BCS LABEL\
+                      NOP\
+\
+                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  when (the address of) LABEL and the NOP are on different\
+                  pages. This means that\
+\
+                            CLV\
+                            BVC LABEL\
+                      LABEL NOP\
+\
+                  the BVC instruction will take 3 cycles no matter what address\
+                  it is located at."
+          },
+          "BCS": {
+              "mnemonic": "Branch on Carry Set",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Relative",     "BCS $4400",   "$B0", 2, 3, 1 ],
+              ],
+              "notes": [
+                  "A branch not taken requires two machine cycles. If the branch\
+                   is taken, add another cycle if it crosses a page boundary."
+              ],
+              "description": "All branches are relative mode and have a length\
+                  of two bytes. Branches are dependant on the status of the flag\
+                  bits when the op code is encountered.\
+\
+                  There is no BRA (BRanch Always) instruction, but it can be\
+                  easily emulated by branching on the basis of a known\
+                  condition. One of the best flags to use for this purpose is\
+                  oVerflow which is unchanged by all but addition and\
+                  subtraction operations.\
+\
+                  A page boundary crossing occurs when the branch destination is\
+                  on a different page than the instruction AFTER the branch\
+                  instruction. For example:\
+\
+                      SEC\
+                      BCS LABEL\
+                      NOP\
+\
+                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  when (the address of) LABEL and the NOP are on different\
+                  pages. This means that\
+\
+                            CLV\
+                            BVC LABEL\
+                      LABEL NOP\
+\
+                  the BVC instruction will take 3 cycles no matter what address\
+                  it is located at."
+          },
+          "BNE": {
+              "mnemonic": "Branch on Not Equal",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Relative",     "BPL $4400",   "$D0", 2, 3, 1 ],
+              ],
+              "notes": [
+                  "A branch not taken requires two machine cycles. If the branch\
+                   is taken, add another cycle if it crosses a page boundary."
+              ],
+              "description": "All branches are relative mode and have a length\
+                  of two bytes. Branches are dependant on the status of the flag\
+                  bits when the op code is encountered.\
+\
+                  There is no BRA (BRanch Always) instruction, but it can be\
+                  easily emulated by branching on the basis of a known\
+                  condition. One of the best flags to use for this purpose is\
+                  oVerflow which is unchanged by all but addition and\
+                  subtraction operations.\
+\
+                  A page boundary crossing occurs when the branch destination is\
+                  on a different page than the instruction AFTER the branch\
+                  instruction. For example:\
+\
+                      SEC\
+                      BCS LABEL\
+                      NOP\
+\
+                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  when (the address of) LABEL and the NOP are on different\
+                  pages. This means that\
+\
+                            CLV\
+                            BVC LABEL\
+                      LABEL NOP\
+\
+                  the BVC instruction will take 3 cycles no matter what address\
+                  it is located at."
+          },
+          "BEQ": {
+              "mnemonic": "Branch on EQual",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Relative",     "BEQ $4400",   "$F0", 2, 3, 1 ],
+              ],
+              "notes": [
+                  "A branch not taken requires two machine cycles. If the branch\
+                   is taken, add another cycle if it crosses a page boundary."
+              ],
+              "description": "All branches are relative mode and have a length\
+                  of two bytes. Branches are dependant on the status of the flag\
+                  bits when the op code is encountered.\
+\
+                  There is no BRA (BRanch Always) instruction, but it can be\
+                  easily emulated by branching on the basis of a known\
+                  condition. One of the best flags to use for this purpose is\
+                  oVerflow which is unchanged by all but addition and\
+                  subtraction operations.\
+\
+                  A page boundary crossing occurs when the branch destination is\
+                  on a different page than the instruction AFTER the branch\
+                  instruction. For example:\
+\
+                      SEC\
+                      BCS LABEL\
+                      NOP\
+\
+                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  when (the address of) LABEL and the NOP are on different\
+                  pages. This means that\
+\
+                            CLV\
+                            BVC LABEL\
+                      LABEL NOP\
+\
+                  the BVC instruction will take 3 cycles no matter what address\
+                  it is located at."
+          },
+
+          "BRK": {
+              "mnemonic": "LoaD Accumulator",
+              "flags": [ "B" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "BRK",         "$00", 1, 7 ],
+              ],
+              "description": "BRK causes a non-maskable interrupt and increments\
+                  the program counter by one. Therefore an RTI will go to the\
+                  address of the BRK +2 so that BRK may be used to replace a\
+                  two-byte instruction for debugging and the subsequent RTI will\
+                  be correct."
+          },
+
+          "CMP": {
+              "mnemonic": "CoMPare accumulator",
+              "flags": [ "S", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "CMP #$44",    "$C9", 2, 2 ],
+                  [ "Zero Page",    "CMP $44",     "$C5", 2, 3 ],
+                  [ "Zero Page, X", "CMP $44,X",   "$D5", 2, 4 ],
+                  [ "Absolute",     "CMP $4400",   "$CD", 3, 4 ],
+                  [ "Absolute, X",  "CMP $4400,X", "$DD", 3, 4, 1 ],
+                  [ "Absolute, Y",  "CMP $4400,Y", "$D9", 3, 4, 1 ],
+                  [ "Indirect, X",  "CMP ($44,X)", "$C1", 2, 6 ],
+                  [ "Indirect, Y",  "CMP ($44),Y", "$D1", 2, 5, 1 ]
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ],
+              "description": "Compare sets flags as if a subtraction had been\
+                  carried out. If the value in the accumulator is equal or\
+                  greater than the compared value, the Carry flag will be set.\
+                  The equal (Z) and sign (S) flags will be set based on equality\
+                  or lack thereof and the sign (i.e. A>=$80) of the\
+                  accumulator."
+          },
+          "CPX": {
+              "mnemonic": "CoMPare X register",
+              "flags": [ "S", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "CPX #$44",    "$E0", 2, 2 ],
+                  [ "Zero Page",    "CPX $44",     "$E4", 2, 3 ],
+                  [ "Absolute",     "CPX $4400",   "$EC", 3, 4 ],
+              ],
+              "description": "Compare sets flags as if a subtraction had been\
+                  carried out. If the value in the accumulator is equal or\
+                  greater than the compared value, the Carry flag will be set.\
+                  The equal (Z) and sign (S) flags will be set based on equality\
+                  or lack thereof and the sign (i.e. A>=$80) of the\
+                  accumulator."
+          },
+          "CPY": {
+              "mnemonic": "CoMPare Y register",
+              "flags": [ "S", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "CPX #$44",    "$C0", 2, 2 ],
+                  [ "Zero Page",    "CPX $44",     "$C4", 2, 3 ],
+                  [ "Absolute",     "CPX $4400",   "$CC", 3, 4 ],
+              ],
+              "description": "Compare sets flags as if a subtraction had been\
+                  carried out. If the value in the accumulator is equal or\
+                  greater than the compared value, the Carry flag will be set.\
+                  The equal (Z) and sign (S) flags will be set based on equality\
+                  or lack thereof and the sign (i.e. A>=$80) of the\
+                  accumulator."
+          },
+
+          "DEC": {
+              "mnemonic": "DECrement memory",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Zero Page",    "CMP $44",     "$C5", 2, 3 ],
+                  [ "Zero Page, X", "CMP $44,X",   "$D5", 2, 4 ],
+                  [ "Absolute",     "CMP $4400",   "$CD", 3, 4 ],
+                  [ "Absolute, X",  "CMP $4400,X", "$DD", 3, 4 ],
+              ],
+          },
+          "EOR": {
+              "mnemonic": "bitwise Exclusive OR",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "EOR #$44",    "$49", 2, 2 ],
+                  [ "Zero Page",    "EOR $44",     "$45", 2, 3 ],
+                  [ "Zero Page, X", "EOR $44,X",   "$55", 2, 4 ],
+                  [ "Absolute",     "EOR $4400",   "$4D", 3, 4 ],
+                  [ "Absolute, X",  "EOR $4400,X", "$5D", 3, 4, 1 ],
+                  [ "Absolute, Y",  "EOR $4400,Y", "$59", 3, 4, 1 ],
+                  [ "Indirect, X",  "EOR ($44,X)", "$41", 2, 6 ],
+                  [ "Indirect, Y",  "EOR ($44),Y", "$51", 2, 5, 1 ]
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ],
+          },
+
+          "CLC": {
+              "mnemonic": "CLear Carry",
+              "flags": [ "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "CLC",         "$18", 1, 2 ],
+              ],
+          },
+          "SEC": {
+              "mnemonic": "SEt Carry",
+              "flags": [ "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "SEC",         "$38", 1, 2 ],
+              ],
+          },
+          "CLI": {
+              "mnemonic": "CLear Interrupt",
+              "flags": [ "I" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "CLI",         "$58", 1, 2 ],
+              ],
+              "description": "The Interrupt flag is used to prevent (SEI) or\
+              enable (CLI) maskable interrupts (aka IRQ's). It does not signal\
+              the presence or absence of an interrupt condition. The 6502 will\
+              set this flag automatically in response to an interrupt and\
+              restore it to its prior status on completion of the interrupt\
+              service routine. If you want your interrupt service routine to\
+              permit other maskable interrupts, you must clear the I flag in\
+              your code."
+          },
+          "SEI": {
+              "mnemonic": "SEt Interrupt",
+              "flags": [ "I" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "SEI",         "$78", 1, 2 ],
+              ],
+              "description": "The Interrupt flag is used to prevent (SEI) or\
+              enable (CLI) maskable interrupts (aka IRQ's). It does not signal\
+              the presence or absence of an interrupt condition. The 6502 will\
+              set this flag automatically in response to an interrupt and\
+              restore it to its prior status on completion of the interrupt\
+              service routine. If you want your interrupt service routine to\
+              permit other maskable interrupts, you must clear the I flag in\
+              your code."
+          },
+          "CLV": {
+              "mnemonic": "CLear oVerflow",
+              "flags": [ "V" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "CLV",         "$B8", 1, 2 ],
+              ],
+              "description": "The overflow flag is generally misunderstood and\
+              therefore under-utilized. After an ADC or SBC instruction, the\
+              overflow flag will be set if the twos compliment result is less\
+              than -128 or greater than +127, and it will be cleared otehrwise.\
+              In twos compliment, $80 through $FF represents -128 through -1,\
+              and $00 through $7F represents 0 through +127. Thus, after:\
+\
+                  CLC\
+                  LDA #$7F ;    +127\
+                  ADC #$01 ; +    +1\
+\
+              the overflow flag is 1 (+127 + + 1 = +128), and after:\
+\
+                  CLC\
+                  LDA #$81 ;    -127\
+                  ADC #$FF ; +    -1\
+\
+              the overflow flag is 0 (-127 + -1 = -128). The overflow flag is\
+          not affected by increments, decrements, shifts and logical operations\
+          i.e. only ADC, BIT, CLV, PLP, RTI, and SBC affect it. There is no op\
+          code to set the overflow, but a BIT test on an RTS instruction will do\
+          the trick."
+          },
+          "CLD": {
+              "mnemonic": "CLear Decimal",
+              "flags": [ "D" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "CLD",         "$D8", 1, 2 ],
+              ],
+              "description": "The Decimal flag controls how the 6502 adds and\
+          subtracts. If set, arithmetic is carried out in packed binary coded\
+          decimal. This flag is unchanged by interrupts and is unknown on\
+          power-up. The implication is that a CLD should be included in boot or\
+          interrupt coding."
+          },
+          "SED": {
+              "mnemonic": "SEt Decimal",
+              "flags": [ "D" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "SED",         "$F8", 1, 2 ],
+              ],
+              "description": "The Decimal flag controls how the 6502 adds and\
+          subtracts. If set, arithmetic is carried out in packed binary coded\
+          decimal. This flag is unchanged by interrupts and is unknown on\
+          power-up. The implication is that a CLD should be included in boot or\
+          interrupt coding."
+          },
+
+          "INC": {
+              "mnemonic": "INCrement memory",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Zero Page",    "INC $44",     "$E6", 2, 5 ],
+                  [ "Zero Page, X", "INC $44,X",   "$F6", 2, 6 ],
+                  [ "Absolute",     "INC $4400",   "$EE", 3, 4 ],
+                  [ "Absolute, X",  "INC $4400,X", "$FE", 3, 7 ],
+              ],
+          },
+
+          "JMP": {
+              "mnemonic": "JuMP",
+              "flags": [ ],
+              "modes": [
+                  [ "Absolute",     "JMP $5597",   "$4C", 3, 3 ],
+                  [ "Indirect",     "JMP ($5597)", "$6C", 3, 5 ],
+              ],
+              "description": "JMP transfers program execution to the following\
+              address (absolute) or to the location contained in the following\
+              address (indirect). Note that there is no carry associated with\
+              the indirect jump, so:\
+\
+              AN INDIRECT JUMP MUST NEVER USE A VECTOR BEGINNING ON THE LAST\
+              BYTE OF A PAGE\
+\
+              For example if address $3000 contains $40, $30FF contains $80, and\
+          $3100 contains $50, the result of JMP ($30FF) will be  atransfer of\
+          control to $4080 rather than $5080 as you inteded i.e. the 6502 took\
+          the low byte of the address from $30FF and the high byte from $3000."
+          },
+          "JSR": {
+              "mnemonic": "Jump to SubRoutine",
+              "flags": [ ],
+              "modes": [
+                  [ "Absolute",     "JMP $5597",   "$20", 3, 6 ],
+              ],
+              "description": "JSR pushes the address-1 of the next operation on\
+          to the stack before transferring program control to the following\
+          address. Subroutines are normally terminated by an RTS opcode."
+          },
+
+          "LDA": {
+              "mnemonic": "LoaD Accumulator",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "LDA #$44",    "$A9", 2, 2 ],
+                  [ "Zero Page",    "LDA $44",     "$A5", 2, 3 ],
+                  [ "Zero Page, X", "LDA $44,X",   "$B5", 2, 4 ],
+                  [ "Absolute",     "LDA $4400",   "$AD", 3, 4 ],
+                  [ "Absolute, X",  "LDA $4400,X", "$BD", 3, 4, 1 ],
+                  [ "Absolute, Y",  "LDA $4400,Y", "$B9", 3, 4, 1 ],
+                  [ "Indirect, X",  "LDA ($44,X)", "$A1", 2, 6 ],
+                  [ "Indirect, Y",  "LDA ($44),Y", "$B1", 2, 5, 1 ]
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ]
+          },
+          "LDX": {
+              "mnemonic": "LoaD X register",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "LDX #$44",    "$A2", 2, 2 ],
+                  [ "Zero Page",    "LDX $44",     "$A6", 2, 3 ],
+                  [ "Zero Page, Y", "LDX $44,X",   "$B6", 2, 4 ],
+                  [ "Absolute",     "LDX $4400",   "$AE", 3, 4 ],
+                  [ "Absolute, Y",  "LDX $4400,Y", "$BE", 3, 4, 1 ],
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ]
+          },
+          "LDY": {
+              "mnemonic": "LoaD Y register",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "LDY #$44",    "$A0", 2, 2 ],
+                  [ "Zero Page",    "LDY $44",     "$A4", 2, 3 ],
+                  [ "Zero Page, X", "LDY $44,X",   "$B4", 2, 4 ],
+                  [ "Absolute",     "LDY $4400",   "$AC", 3, 4 ],
+                  [ "Absolute, X",  "LDY $4400,Y", "$BC", 3, 4, 1 ],
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ]
+          },
+
+          "LSR": {
+          },
+
+          "SBC": {},
+          "DEX": {},
+          "DEY": {},
+          "INX": {},
+          "INY": {},
+          "NOP": {},
+          "ORA": {},
+          "PHA": {},
+          "PHP": {},
+          "PLA": {},
+          "PLP": {},
+          "ROL": {},
+          "ROR": {},
+          "RTI": {},
+          "RTS": {},
+          "STA": {},
+          "STX": {},
+          "STY": {},
+          "TAX": {},
+          "TAY": {},
+          "TSX": {},
+          "TXA": {},
+          "TXS": {},
+          "TYA": {}
+      };
+
+      function onClick(self) {
+          var instruction = opcodes[self.textContent];
+          var description = document.getElementsByTagName("description")[0];
+          var innerHtml = "<closebutton onclick=\"onCloseClicked(this);\">&times;</closebutton>";
+          innerHtml += "<dt>" + self.textContent + "</dt>";
+          innerHtml += "<dd>" + instruction.mnemonic + "</dd>";
+
+          if (instruction.flags && (instruction.flags.length > 0)) {
+              innerHtml += "<flags>Affects Flags: ";
+              for (var flag in instruction.flags) {
+                  innerHtml += instruction.flags[flag] + " ";
+              }
+              innerHtml += "</flags>";
+          }
+
+          innerHtml += "<table><tr><th>Mode</th><th>Syntax</th><th>Hex</th><th>Length</th><th>Time</th><th>Notes</th></tr>";
+          for (var mode in instruction.modes) {
+              [mode, syntax, hex, length, time, note] = instruction.modes[mode];
+              innerHtml += "<tr><td>" + mode + "</td>";
+              innerHtml += "<td>" + syntax + "</td>";
+              innerHtml += "<td>" + hex + "</td>";
+              innerHtml += "<td>" + length + "</td>";
+              innerHtml += "<td>" + time + "</td>";
+
+              innerHtml += "<td>";
+              if (note) {
+                  innerHtml += note;
+              }
+              innerHtml += "</td></tr>";
+          }
+          innerHtml += "</table>";
+
+          if (instruction.notes) {
+              innerHtml += "<ol>";
+              for (var note in instruction.notes) {
+                  innerHtml += "<li>" + instruction.notes[note] + "</li>";
+              }
+              innerHtml += "</ol>"
+          }
+
+          if (instruction.description) {
+              innerHtml += "<p>" + instruction.description + "</p>";
+          }
+
+          description.innerHTML = innerHtml;
+          description.style.display = "block";
+      }
+
+      function onCloseClicked(self) {
+          document.getElementsByTagName("description")[0].style.display = "none";
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>6502 / 6510 / 8502 Opcode List</h1>
+
+    <categories>
+      <table>
+        <th colspan="2">Register to Memory Instructions</th>
+        <tr><td onclick="onClick(this);">LDA</td><td onclick="onClick(this);">STA</td></tr>
+        <tr><td onclick="onClick(this);">LDX</td><td onclick="onClick(this);">STX</td></tr>
+        <tr><td onclick="onClick(this);">LDY</td><td onclick="onClick(this);">STY</td></tr>
+      </table>
+
+      <table>
+        <th>Compare Instructions</th>
+        <tr><td onclick="onClick(this);">CMP</td></tr>
+        <tr><td onclick="onClick(this);">CPX</td></tr>
+        <tr><td onclick="onClick(this);">CPY</td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Branching</th>
+        <tr><td onclick="onClick(this);">BCC</td><td onclick="onClick(this);">BNE</td></tr>
+        <tr><td onclick="onClick(this);">BCS</td><td onclick="onClick(this);">BPL</td></tr>
+        <tr><td onclick="onClick(this);">BEQ</td><td onclick="onClick(this);">BVC</td></tr>
+        <tr><td onclick="onClick(this);">BMI</td><td onclick="onClick(this);">BVS</td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Shift and Rotate Instructions</th>
+        <tr><td onclick="onClick(this);">ASL</td><td onclick="onClick(this);">LSR</td></tr>
+        <tr><td onclick="onClick(this);">ROL</td><td onclick="onClick(this);">ROR</td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Jump and Return Instructions</th>
+        <tr><td onclick="onClick(this);">JMP</td><td onclick="onClick(this);">RTI</td></tr>
+        <tr><td onclick="onClick(this);">JSR</td><td onclick="onClick(this);">RTS</td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Counter Instructions</th>
+        <tr><td onclick="onClick(this);">INC</td><td onclick="onClick(this);">DEC</td></tr>
+        <tr><td onclick="onClick(this);">INX</td><td onclick="onClick(this);">DEX</td></tr>
+        <tr><td onclick="onClick(this);">INY</td><td onclick="onClick(this);">DEY</td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Arithmetic and Logic Instructions</th>
+        <tr><td onclick="onClick(this);">ADC</td><td onclick="onClick(this);">AND</td></tr>
+        <tr><td onclick="onClick(this);">BIT</td><td onclick="onClick(this);">EOR</td></tr>
+        <tr><td onclick="onClick(this);">ORA</td><td onclick="onClick(this);">SBC</td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Register Transfer Instructions</th>
+        <tr><td onclick="onClick(this);">TAX</td><td onclick="onClick(this);">TXA</td></tr>
+        <tr><td onclick="onClick(this);">TAY</td><td onclick="onClick(this);">TYA</td></tr>
+        <tr><td onclick="onClick(this);">TSX</td><td onclick="onClick(this);">TXS</td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Set and Clear Instructions</th>
+        <tr><td onclick="onClick(this);">CLC</td><td onclick="onClick(this);">SEC</td></tr>
+        <tr><td onclick="onClick(this);">CLD</td><td onclick="onClick(this);">SED</td></tr>
+        <tr><td onclick="onClick(this);">CLI</td><td onclick="onClick(this);">SEI</td></tr>
+        <tr><td onclick="onClick(this);">CLV</td><td></td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Stack Instructions</th>
+        <tr><td onclick="onClick(this);">PHA</td><td onclick="onClick(this);">PLA</td></tr>
+        <tr><td onclick="onClick(this);">PHP</td><td onclick="onClick(this);">PLP</td></tr>
+      </table>
+    </categories>
+
+    <description>
+      <closebutton onclick="onCloseClicked(this);">&times;</closebutton>
+      <dt>LDA</dt>
+      <dd>LoaD Accumulator</dd>
+      <flags>Affects Flags: S Z</flags>
+      <table>
+        <tr><th>Mode</th><th>Syntax</th><th>Hex</th><th>Length</th><th>Time</th></tr>
+        <tr><td>Immediate</td><td>LDA #$44</td><td>$A9</td><td>2</td><td>2</td></tr>
+        <tr><td>Zero Page</td><td>LDA $44</td><td>$A5</td><td>2</td><td>3</td></tr>
+        <tr><td>Zero Page,X</td><td>LDA $44,X</td><td>$B5</td><td>2</td><td>4</td></tr>
+        <tr><td>Absolute</td><td>LDA $4400</td><td>$AD</td><td>3</td><td>4</td></tr>
+        <tr><td>Absolute,X</td><td>LDA $4400,X</td><td>$BD</td><td>3</td><td>4+</td></tr>
+        <tr><td>Absolute,Y</td><td>LDA $4400,Y</td><td>$B9</td><td>3</td><td>4+</td></tr>
+        <tr><td>Indirect,X</td><td>LDA ($44,X)</td><td>$A1</td><td>2</td><td>6</td></tr>
+        <tr><td>Indirect,Y</td><td>LDA ($44),Y</td><td>$B1</td><td>2</td><td>5+</td></tr>
+      </table>
+      <notes>+: add 1 cycle if page boundary crossed</notes>
+    </description>
+
+    <footer>
+      Data borrowed
+      from <a href="http://www.6502.org/tutorials/6502opcodes.html">NMOS 6502
+      Opcodes</a> by <a href="http://www.theonelab.com/">June Tate-Gans</a>
+    </footer>
+
+    <script>
+      var tag = document.getElementsByTagName("td")[6];
+      onClick(tag);
+    </script>
+  </body>
+</html>
