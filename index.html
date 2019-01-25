@@ -110,6 +110,7 @@
           border: 1px solid #000;
           background: #fff;
           box-shadow: 0 4px 8px 0 #333;
+          overflow: scroll;
       }
 
       description closebutton {
@@ -170,11 +171,21 @@
           font-size: small;
       }
 
-      description p {
+      description text {
           display: block;
           overflow: scroll;
           padding: 10px;
           white-space: normal;
+      }
+
+      description pre {
+          margin: 1em 0em 0em 4em;
+          padding: 0px;
+      }
+
+      description p {
+          margin: 1em;
+          padding: 0px;
       }
     </style>
 
@@ -197,11 +208,10 @@
               "notes": [
                   "add 1 cycle if page boundary crossed"
               ],
-              "description": "ADC results are dependant on the setting of the\
+              "description": "<p>ADC results are dependant on the setting of the\
                   decimal flag. In decimal mode, addition is carried out on the\
                   assumption that the values are packed BCD (Binary Coded Decimal).\
-                  \
-                  There is no way to add without carry.",
+                  <p>There is no way to add without carry.",
           },
           "AND": {
               "mnemonic": "bitwise AND with accumulator",
@@ -232,7 +242,7 @@
                   [ "Absolute",     "ASL $4400",   "$0E", 3, 6 ],
                   [ "Absolute, X",  "ASL $4400,X", "$1E", 3, 7 ],
               ],
-              "description": "ASL shifts all bits left one position. 0 is\
+              "description": "<p>ASL shifts all bits left one position. 0 is\
                   shifted into bit 0 and the original bit 7 is shifted into the\
                   Carry flag."
           },
@@ -244,22 +254,21 @@
                   [ "Zero Page",    "BIT $44",     "$24", 2, 3 ],
                   [ "Absolute",     "BIT $4400",   "$2C", 3, 4 ],
               ],
-              "description": "BIT sets the Z flag as though the value in the\
+              "description": "<p>BIT sets the Z flag as though the value in the\
                   address tested were ANDed with the accumulator. The S and V\
                   flags are set to match bits 7 and 6 respectively in the value\
                   stored at the tested address.\
-                  \
-                  BIT is often used to skip one or two following bytes as in:\
-                  \
-                  CLOSE1 LDX #$10   If entered here, we\
-                         .BYTE $2C  effectively perform\
-                  CLOSE2 LDX #$20   a BIT test on $20A2,\
-                         .BYTE $2C  another one on $30A2,\
-                  CLOSE3 LDX #$30   and end up with the X\
-                  CLOSEX LDA #12    register still at $10\
-                         STA ICCOM,X upon arrival here.\
-                  \
-                  Beware: a BIT instruction used in this way as a NOP does have\
+                  <p>BIT is often used to skip one or two following bytes as in:\
+                  <pre>\
+CLOSE1 LDX #$10       If entered here, we\n\
+       .BYTE $2C      effectively perform\n\
+CLOSE2 LDX #$20       a BIT test on $20A2,\n\
+       .BYTE $2C      another one on $30A2,\n\
+CLOSE3 LDX #$30       and end up with the X\n\
+CLOSEX LDA #12        register still at $10\n\
+       STA ICCOM,X    upon arrival here.\n\
+                  </pre>\
+                  <p>Beware: a BIT instruction used in this way as a NOP does have\
                   effects: the flags may be modified, and the read of the\
                   absolute address, if it happens to access an I/O device, may\
                   cause an unwanted action."
@@ -276,33 +285,33 @@
                   "A branch not taken requires two machine cycles. If the branch\
                    is taken, add another cycle if it crosses a page boundary."
               ],
-              "description": "All branches are relative mode and have a length\
+              "description": "<p>All branches are relative mode and have a length\
                   of two bytes. Branches are dependant on the status of the flag\
                   bits when the op code is encountered.\
                   \
-                  There is no BRA (BRanch Always) instruction, but it can be\
+                  <p>There is no BRA (BRanch Always) instruction, but it can be\
                   easily emulated by branching on the basis of a known\
                   condition. One of the best flags to use for this purpose is\
                   oVerflow which is unchanged by all but addition and\
                   subtraction operations.\
                   \
-                  A page boundary crossing occurs when the branch destination is\
+                  <p>A page boundary crossing occurs when the branch destination is\
                   on a different page than the instruction AFTER the branch\
                   instruction. For example:\
-                  \
-                      SEC\
-                      BCS LABEL\
-                      NOP\
-                  \
-                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  <pre>\
+SEC\n\
+BCS LABEL\n\
+NOP\n\
+                  </pre>\
+                  <p>A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
                   when (the address of) LABEL and the NOP are on different\
                   pages. This means that\
-                  \
-                            CLV\
-                            BVC LABEL\
-                      LABEL NOP\
-                  \
-                  the BVC instruction will take 3 cycles no matter what address\
+                  <pre>\
+      CLV\n\
+      BVC LABEL\n\
+LABEL NOP\n\
+                  </pre>\
+                  <p>the BVC instruction will take 3 cycles no matter what address\
                   it is located at."
           },
           "BMI": {
@@ -316,33 +325,33 @@
                   "A branch not taken requires two machine cycles. If the branch\
                    is taken, add another cycle if it crosses a page boundary."
               ],
-              "description": "All branches are relative mode and have a length\
+              "description": "<p>All branches are relative mode and have a length\
                   of two bytes. Branches are dependant on the status of the flag\
                   bits when the op code is encountered.\
-\
+                  <p>\
                   There is no BRA (BRanch Always) instruction, but it can be\
                   easily emulated by branching on the basis of a known\
                   condition. One of the best flags to use for this purpose is\
                   oVerflow which is unchanged by all but addition and\
                   subtraction operations.\
-\
+                  <p>\
                   A page boundary crossing occurs when the branch destination is\
                   on a different page than the instruction AFTER the branch\
                   instruction. For example:\
-\
-                      SEC\
-                      BCS LABEL\
-                      NOP\
-\
-                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  <pre>\n\
+SEC\n\
+BCS LABEL\n\
+NOP\n\
+                  </pre>\
+                  <p>A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
                   when (the address of) LABEL and the NOP are on different\
                   pages. This means that\
-\
-                            CLV\
-                            BVC LABEL\
-                      LABEL NOP\
-\
-                  the BVC instruction will take 3 cycles no matter what address\
+                  <pre>\
+      CLV\n\
+      BVC LABEL\n\
+LABEL NOP\
+                  </pre>\
+                  <p>the BVC instruction will take 3 cycles no matter what address\
                   it is located at."
           },
           "BVC": {
@@ -356,33 +365,33 @@
                   "A branch not taken requires two machine cycles. If the branch\
                    is taken, add another cycle if it crosses a page boundary."
               ],
-              "description": "All branches are relative mode and have a length\
+              "description": "<p>All branches are relative mode and have a length\
                   of two bytes. Branches are dependant on the status of the flag\
                   bits when the op code is encountered.\
-\
+                  <p>\
                   There is no BRA (BRanch Always) instruction, but it can be\
                   easily emulated by branching on the basis of a known\
                   condition. One of the best flags to use for this purpose is\
                   oVerflow which is unchanged by all but addition and\
                   subtraction operations.\
-\
+                  <p>\
                   A page boundary crossing occurs when the branch destination is\
                   on a different page than the instruction AFTER the branch\
                   instruction. For example:\
-\
-                      SEC\
-                      BCS LABEL\
-                      NOP\
-\
-                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  <pre>\n\
+SEC\n\
+BCS LABEL\n\
+NOP\n\
+                  </pre>\
+                  <p>A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
                   when (the address of) LABEL and the NOP are on different\
                   pages. This means that\
-\
-                            CLV\
-                            BVC LABEL\
-                      LABEL NOP\
-\
-                  the BVC instruction will take 3 cycles no matter what address\
+                  <pre>\n\
+      CLV\n\
+      BVC LABEL\n\
+LABEL NOP\n\
+                  </pre>\
+                  <p>the BVC instruction will take 3 cycles no matter what address\
                   it is located at."
           },
           "BVS": {
@@ -396,33 +405,33 @@
                   "A branch not taken requires two machine cycles. If the branch\
                    is taken, add another cycle if it crosses a page boundary."
               ],
-              "description": "All branches are relative mode and have a length\
+              "description": "<p>All branches are relative mode and have a length\
                   of two bytes. Branches are dependant on the status of the flag\
                   bits when the op code is encountered.\
-\
+                  <p>\
                   There is no BRA (BRanch Always) instruction, but it can be\
                   easily emulated by branching on the basis of a known\
                   condition. One of the best flags to use for this purpose is\
                   oVerflow which is unchanged by all but addition and\
                   subtraction operations.\
-\
+                  <p>\
                   A page boundary crossing occurs when the branch destination is\
                   on a different page than the instruction AFTER the branch\
                   instruction. For example:\
-\
-                      SEC\
-                      BCS LABEL\
-                      NOP\
-\
+                  <pre>\n\
+SEC\n\
+BCS LABEL\n\
+NOP\n\
+                  </pre>\
                   A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
                   when (the address of) LABEL and the NOP are on different\
                   pages. This means that\
-\
-                            CLV\
-                            BVC LABEL\
-                      LABEL NOP\
-\
-                  the BVC instruction will take 3 cycles no matter what address\
+                  <pre>\n\
+      CLV\n\
+      BVC LABEL\n\
+LABEL NOP\n\
+                  </pre>\
+                  <p>the BVC instruction will take 3 cycles no matter what address\
                   it is located at."
           },
           "BCC": {
@@ -436,33 +445,33 @@
                   "A branch not taken requires two machine cycles. If the branch\
                    is taken, add another cycle if it crosses a page boundary."
               ],
-              "description": "All branches are relative mode and have a length\
+              "description": "<p>All branches are relative mode and have a length\
                   of two bytes. Branches are dependant on the status of the flag\
                   bits when the op code is encountered.\
-\
+                  <p>\
                   There is no BRA (BRanch Always) instruction, but it can be\
                   easily emulated by branching on the basis of a known\
                   condition. One of the best flags to use for this purpose is\
                   oVerflow which is unchanged by all but addition and\
                   subtraction operations.\
-\
+                  <p>\
                   A page boundary crossing occurs when the branch destination is\
                   on a different page than the instruction AFTER the branch\
                   instruction. For example:\
-\
-                      SEC\
-                      BCS LABEL\
-                      NOP\
-\
-                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  <pre>\n\
+SEC\n\
+BCS LABEL\n\
+NOP\n\
+                  </pre>\
+                  <p>A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
                   when (the address of) LABEL and the NOP are on different\
                   pages. This means that\
-\
-                            CLV\
-                            BVC LABEL\
-                      LABEL NOP\
-\
-                  the BVC instruction will take 3 cycles no matter what address\
+                  <pre>\
+      CLV\n\
+      BVC LABEL\n\
+LABEL NOP\n\
+                  </pre>\
+                  <p>the BVC instruction will take 3 cycles no matter what address\
                   it is located at."
           },
           "BCS": {
@@ -476,33 +485,33 @@
                   "A branch not taken requires two machine cycles. If the branch\
                    is taken, add another cycle if it crosses a page boundary."
               ],
-              "description": "All branches are relative mode and have a length\
+              "description": "<p>All branches are relative mode and have a length\
                   of two bytes. Branches are dependant on the status of the flag\
                   bits when the op code is encountered.\
-\
+                  <p>\
                   There is no BRA (BRanch Always) instruction, but it can be\
                   easily emulated by branching on the basis of a known\
                   condition. One of the best flags to use for this purpose is\
                   oVerflow which is unchanged by all but addition and\
                   subtraction operations.\
-\
+                  <p>\
                   A page boundary crossing occurs when the branch destination is\
                   on a different page than the instruction AFTER the branch\
                   instruction. For example:\
-\
-                      SEC\
-                      BCS LABEL\
-                      NOP\
-\
-                  A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
+                  <pre>\n\
+SEC\n\
+BCS LABEL\n\
+NOP\n\
+                  </pre>\
+                  <p>A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
                   when (the address of) LABEL and the NOP are on different\
                   pages. This means that\
-\
-                            CLV\
-                            BVC LABEL\
-                      LABEL NOP\
-\
-                  the BVC instruction will take 3 cycles no matter what address\
+<pre>\n\
+      CLV\n\
+      BVC LABEL\n\
+LABEL NOP\n\
+                  </pre>\
+                  <p>the BVC instruction will take 3 cycles no matter what address\
                   it is located at."
           },
           "BNE": {
@@ -516,33 +525,33 @@
                   "A branch not taken requires two machine cycles. If the branch\
                    is taken, add another cycle if it crosses a page boundary."
               ],
-              "description": "All branches are relative mode and have a length\
+              "description": "<p>All branches are relative mode and have a length\
                   of two bytes. Branches are dependant on the status of the flag\
                   bits when the op code is encountered.\
-\
+                  <p>\
                   There is no BRA (BRanch Always) instruction, but it can be\
                   easily emulated by branching on the basis of a known\
                   condition. One of the best flags to use for this purpose is\
                   oVerflow which is unchanged by all but addition and\
                   subtraction operations.\
-\
+                  <p>\
                   A page boundary crossing occurs when the branch destination is\
                   on a different page than the instruction AFTER the branch\
                   instruction. For example:\
-\
-                      SEC\
-                      BCS LABEL\
-                      NOP\
-\
+                  <pre>\n\
+SEC\n\
+BCS LABEL\n\
+NOP\n\
+                  </pre>\
                   A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
                   when (the address of) LABEL and the NOP are on different\
                   pages. This means that\
-\
-                            CLV\
-                            BVC LABEL\
-                      LABEL NOP\
-\
-                  the BVC instruction will take 3 cycles no matter what address\
+                  <pre>\n\
+      CLV\n\
+      BVC LABEL\n\
+LABEL NOP\n\
+                  </pre>\
+                  <p>the BVC instruction will take 3 cycles no matter what address\
                   it is located at."
           },
           "BEQ": {
@@ -556,33 +565,33 @@
                   "A branch not taken requires two machine cycles. If the branch\
                    is taken, add another cycle if it crosses a page boundary."
               ],
-              "description": "All branches are relative mode and have a length\
+              "description": "<p>All branches are relative mode and have a length\
                   of two bytes. Branches are dependant on the status of the flag\
                   bits when the op code is encountered.\
-\
+                  <p>\
                   There is no BRA (BRanch Always) instruction, but it can be\
                   easily emulated by branching on the basis of a known\
                   condition. One of the best flags to use for this purpose is\
                   oVerflow which is unchanged by all but addition and\
                   subtraction operations.\
-\
+                  <p>\
                   A page boundary crossing occurs when the branch destination is\
                   on a different page than the instruction AFTER the branch\
                   instruction. For example:\
-\
-                      SEC\
-                      BCS LABEL\
-                      NOP\
-\
+                  <pre>\n\
+SEC\n\
+BCS LABEL\n\
+NOP\n\
+                  </pre>\
                   A page boundary crossing occurs (i.e. the BCS takes 4 cycles)\
                   when (the address of) LABEL and the NOP are on different\
                   pages. This means that\
-\
-                            CLV\
-                            BVC LABEL\
-                      LABEL NOP\
-\
-                  the BVC instruction will take 3 cycles no matter what address\
+                  <pre>\n\
+      CLV\n\
+      BVC LABEL\n\
+LABEL NOP\n\
+                  </pre>\
+                  <p>the BVC instruction will take 3 cycles no matter what address\
                   it is located at."
           },
 
@@ -593,7 +602,7 @@
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "BRK",         "$00", 1, 7 ],
               ],
-              "description": "BRK causes a non-maskable interrupt and increments\
+              "description": "<p>BRK causes a non-maskable interrupt and increments\
                   the program counter by one. Therefore an RTI will go to the\
                   address of the BRK +2 so that BRK may be used to replace a\
                   two-byte instruction for debugging and the subsequent RTI will\
@@ -617,7 +626,7 @@
               "notes": [
                   "add 1 cycle if page boundary crossed"
               ],
-              "description": "Compare sets flags as if a subtraction had been\
+              "description": "<p>Compare sets flags as if a subtraction had been\
                   carried out. If the value in the accumulator is equal or\
                   greater than the compared value, the Carry flag will be set.\
                   The equal (Z) and sign (S) flags will be set based on equality\
@@ -633,7 +642,7 @@
                   [ "Zero Page",    "CPX $44",     "$E4", 2, 3 ],
                   [ "Absolute",     "CPX $4400",   "$EC", 3, 4 ],
               ],
-              "description": "Compare sets flags as if a subtraction had been\
+              "description": "<p>Compare sets flags as if a subtraction had been\
                   carried out. If the value in the accumulator is equal or\
                   greater than the compared value, the Carry flag will be set.\
                   The equal (Z) and sign (S) flags will be set based on equality\
@@ -649,7 +658,7 @@
                   [ "Zero Page",    "CPX $44",     "$C4", 2, 3 ],
                   [ "Absolute",     "CPX $4400",   "$CC", 3, 4 ],
               ],
-              "description": "Compare sets flags as if a subtraction had been\
+              "description": "<p>Compare sets flags as if a subtraction had been\
                   carried out. If the value in the accumulator is equal or\
                   greater than the compared value, the Carry flag will be set.\
                   The equal (Z) and sign (S) flags will be set based on equality\
@@ -710,7 +719,7 @@
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "CLI",         "$58", 1, 2 ],
               ],
-              "description": "The Interrupt flag is used to prevent (SEI) or\
+              "description": "<p>The Interrupt flag is used to prevent (SEI) or\
               enable (CLI) maskable interrupts (aka IRQ's). It does not signal\
               the presence or absence of an interrupt condition. The 6502 will\
               set this flag automatically in response to an interrupt and\
@@ -726,7 +735,7 @@
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "SEI",         "$78", 1, 2 ],
               ],
-              "description": "The Interrupt flag is used to prevent (SEI) or\
+              "description": "<p>The Interrupt flag is used to prevent (SEI) or\
               enable (CLI) maskable interrupts (aka IRQ's). It does not signal\
               the presence or absence of an interrupt condition. The 6502 will\
               set this flag automatically in response to an interrupt and\
@@ -742,24 +751,24 @@
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "CLV",         "$B8", 1, 2 ],
               ],
-              "description": "The overflow flag is generally misunderstood and\
+              "description": "<p>The overflow flag is generally misunderstood and\
               therefore under-utilized. After an ADC or SBC instruction, the\
               overflow flag will be set if the twos compliment result is less\
               than -128 or greater than +127, and it will be cleared otehrwise.\
               In twos compliment, $80 through $FF represents -128 through -1,\
               and $00 through $7F represents 0 through +127. Thus, after:\
-\
-                  CLC\
-                  LDA #$7F ;    +127\
-                  ADC #$01 ; +    +1\
-\
-              the overflow flag is 1 (+127 + + 1 = +128), and after:\
-\
-                  CLC\
-                  LDA #$81 ;    -127\
-                  ADC #$FF ; +    -1\
-\
-              the overflow flag is 0 (-127 + -1 = -128). The overflow flag is\
+              <pre>\n\
+CLC\n\
+LDA #$7F ;    +127\n\
+ADC #$01 ; +    +1\n\
+              </pre>\
+              <p>the overflow flag is 1 (+127 + + 1 = +128), and after:\
+              <pre>\n\
+CLC\n\
+LDA #$81 ;    -127\n\
+ADC #$FF ; +    -1\n\
+              </pre>\
+              <p>the overflow flag is 0 (-127 + -1 = -128). The overflow flag is\
           not affected by increments, decrements, shifts and logical operations\
           i.e. only ADC, BIT, CLV, PLP, RTI, and SBC affect it. There is no op\
           code to set the overflow, but a BIT test on an RTS instruction will do\
@@ -772,7 +781,7 @@
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "CLD",         "$D8", 1, 2 ],
               ],
-              "description": "The Decimal flag controls how the 6502 adds and\
+              "description": "<p>The Decimal flag controls how the 6502 adds and\
           subtracts. If set, arithmetic is carried out in packed binary coded\
           decimal. This flag is unchanged by interrupts and is unknown on\
           power-up. The implication is that a CLD should be included in boot or\
@@ -785,7 +794,7 @@
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "SED",         "$F8", 1, 2 ],
               ],
-              "description": "The Decimal flag controls how the 6502 adds and\
+              "description": "<p>The Decimal flag controls how the 6502 adds and\
           subtracts. If set, arithmetic is carried out in packed binary coded\
           decimal. This flag is unchanged by interrupts and is unknown on\
           power-up. The implication is that a CLD should be included in boot or\
@@ -811,14 +820,14 @@
                   [ "Absolute",     "JMP $5597",   "$4C", 3, 3 ],
                   [ "Indirect",     "JMP ($5597)", "$6C", 3, 5 ],
               ],
-              "description": "JMP transfers program execution to the following\
+              "description": "<p>JMP transfers program execution to the following\
               address (absolute) or to the location contained in the following\
               address (indirect). Note that there is no carry associated with\
               the indirect jump, so:\
-\
+              <p style=\"color:red;\">\
               AN INDIRECT JUMP MUST NEVER USE A VECTOR BEGINNING ON THE LAST\
               BYTE OF A PAGE\
-\
+              <p>\
               For example if address $3000 contains $40, $30FF contains $80, and\
           $3100 contains $50, the result of JMP ($30FF) will be  atransfer of\
           control to $4080 rather than $5080 as you inteded i.e. the 6502 took\
@@ -830,7 +839,7 @@
               "modes": [
                   [ "Absolute",     "JMP $5597",   "$20", 3, 6 ],
               ],
-              "description": "JSR pushes the address-1 of the next operation on\
+              "description": "<p>JSR pushes the address-1 of the next operation on\
           to the stack before transferring program control to the following\
           address. Subroutines are normally terminated by an RTS opcode."
           },
@@ -954,7 +963,7 @@
           }
 
           if (instruction.description) {
-              innerHtml += "<p>" + instruction.description + "</p>";
+              innerHtml += "<text>" + instruction.description + "</text>";
           }
 
           description.innerHTML = innerHtml;
@@ -1065,10 +1074,5 @@
       from <a href="http://www.6502.org/tutorials/6502opcodes.html">NMOS 6502
       Opcodes</a> by <a href="http://www.theonelab.com/">June Tate-Gans</a>
     </footer>
-
-    <script>
-      var tag = document.getElementsByTagName("td")[6];
-      onClick(tag);
-    </script>
   </body>
 </html>
