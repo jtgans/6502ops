@@ -184,8 +184,8 @@
       }
 
       description p {
-          margin: 1em;
-          padding: 0px;
+          margin: 2px 2px 4px 2px;
+          padding: 2px;
       }
     </style>
 
@@ -894,32 +894,316 @@ ADC #$FF ; +    -1\n\
           },
 
           "LSR": {
+              "mnemonic": "Logical Shift Right",
+              "flags": [ "S", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Accumulator",  "LSR A",       "$4A", 1, 2 ],
+                  [ "Zero Page",    "LSR $44",     "$46", 2, 5 ],
+                  [ "Zero Page, X", "LSR $44,X",   "$56", 2, 6 ],
+                  [ "Absolute",     "LSR $4400",   "$4E", 3, 6 ],
+                  [ "Absolute, X",  "LSR $4400,X", "$5E", 3, 7 ],
+              ],
+              "description": "<p>LSR shifts all bits right one position. Bit 0\
+              is shifted into bit 7 and the original bit 0 is shifted into the\
+              Carry."
           },
 
-          "SBC": {},
-          "DEX": {},
-          "DEY": {},
-          "INX": {},
-          "INY": {},
-          "NOP": {},
-          "ORA": {},
-          "PHA": {},
-          "PHP": {},
-          "PLA": {},
-          "PLP": {},
-          "ROL": {},
-          "ROR": {},
-          "RTI": {},
-          "RTS": {},
-          "STA": {},
-          "STX": {},
-          "STY": {},
-          "TAX": {},
-          "TAY": {},
-          "TSX": {},
-          "TXA": {},
-          "TXS": {},
-          "TYA": {}
+          "NOP": {
+              "mnemonic": "No OPeration",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "NOP",         "$EA", 1, 2 ],
+              ],
+              "description": "<p>NOP is used to reserve space for future\
+              modifications or effectively REM out existing code."
+          },
+
+          "ORA": {
+              "mnemonic": "bitwise OR with Accumulator",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "ORA #$44",    "$09", 2, 2 ],
+                  [ "Zero Page",    "ORA $44",     "$05", 2, 3 ],
+                  [ "Zero Page, X", "ORA $44,X",   "$15", 2, 4 ],
+                  [ "Absolute",     "ORA $4400",   "$0D", 3, 4 ],
+                  [ "Absolute, X",  "ORA $4400,X", "$1D", 3, 4, 1 ],
+                  [ "Absolute, Y",  "ORA $4400,Y", "$19", 3, 4, 1 ],
+                  [ "Indirect, X",  "ORA ($44,X)", "$01", 2, 6 ],
+                  [ "Indirect, Y",  "ORA ($44),Y", "$11", 2, 5, 1 ]
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ]
+          },
+
+          "TAX": {
+              "mnemonic": "Transfer A to X",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "TAX",         "$AA", 1, 2 ],
+              ],
+          },
+          "TXA": {
+              "mnemonic": "Transfer X to A",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "TXA",         "$8A", 1, 2 ],
+              ],
+          },
+          "DEX": {
+              "mnemonic": "DEcrement X",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "DEX",         "$CA", 1, 2 ],
+              ],
+          },
+          "INX": {
+              "mnemonic": "INcrement X",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "INX",         "$E8", 1, 2 ],
+              ],
+          },
+          "TAY": {
+              "mnemonic": "Transfer A to Y",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "TAY",         "$A8", 1, 2 ],
+              ],
+          },
+          "TYA": {
+              "mnemonic": "Transfer Y to A",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "TYA",         "$98", 1, 2 ],
+              ],
+          },
+          "DEY": {
+              "mnemonic": "DEcrement Y",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "DEY",         "$88", 1, 2 ],
+              ],
+          },
+          "INY": {
+              "mnemonic": "INcrement Y",
+              "flags": [ "S", "Z" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "INY",         "$C8", 1, 2 ],
+              ],
+          },
+
+          "ROL": {
+              "mnemonic": "ROtate Left",
+              "flags": [ "S", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Accumulator",  "ROL A",       "$2A", 1, 2 ],
+                  [ "Zero Page",    "ROL $44",     "$26", 2, 5 ],
+                  [ "Zero Page, X", "ROL $44,X",   "$36", 2, 6 ],
+                  [ "Absolute",     "ROL $4400",   "$2E", 3, 6 ],
+                  [ "Absolute, X",  "ROL $4400,X", "$3E", 3, 7 ],
+              ],
+              "description": "<p>ROL shifts all bits left one position. The\
+              Carry flag is shifted into bit 0 and the original bit 7 is shifted\
+              into the Carry flag."
+          },
+          "ROR": {
+              "mnemonic": "ROtate Right",
+              "flags": [ "S", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Accumulator",  "ROL A",       "$6A", 1, 2 ],
+                  [ "Zero Page",    "ROL $44",     "$66", 2, 5 ],
+                  [ "Zero Page, X", "ROL $44,X",   "$76", 2, 6 ],
+                  [ "Absolute",     "ROL $4400",   "$6E", 3, 6 ],
+                  [ "Absolute, X",  "ROL $4400,X", "$7E", 3, 7 ],
+              ],
+              "description": "<p>ROR shifts all bits right one position. The\
+              Carry flag is shifted into bit 7 and the original bit 0 is shifted\
+              into the Carry flag."
+          },
+
+          "RTI": {
+              "mnemonic": "ReTurn from Interrupt",
+              "flags": [ "S", "Z", "C", "I", "V" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "RTI",         "$40", 1, 6 ],
+              ],
+              "description": "<p>RTI retrievs the Processor Status Word (flags)\
+              and the Program Counter from the stack in that order (interrupts\
+              push the PC first and then the PSW).\
+              <p>\
+              Not unlike RTS, the return address on the stack is the actual\
+              address rather than the address-1."
+          },
+          "RTS": {
+              "mnemonic": "ReTurn from Subroutine",
+              "flags": [ "S", "Z", "C", "I", "V" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "RTS",         "$60", 1, 6 ],
+              ],
+              "description": "RTS pulls the top two bytes off the stack (low\
+              byte first) and transfers program control to that address+1. It is\
+              used, as expected, to exit a subroutine invoked via JSR, which\
+              pushed the address-1.\
+              <p>\
+              RTS is frequently used to implement a jump table where addresses-1\
+              are pushed onto the stack and accessed via RTS. E.g. to access the\
+              second of four routines:\
+              <pre>\n\
+ LDX #1\n\
+ JSR EXEC\n\
+ JMP SOMEWHERE\n\
+\n\
+LOBYTE\n\
+ .BYTE <ROUTINE0-1,<ROUTINE1-1\n\
+ .BYTE <ROUTINE2-1,<ROUTINE3-1\n\
+\n\
+HIBYTE\n\
+ .BYTE >ROUTINE0-1,>ROUTINE1-1\n\
+ .BYTE >ROUTINE2-1,>ROUTINE3-1\n\
+\n\
+EXEC\n\
+ LDA HIBYTE,X\n\
+ PHA\n\
+ LDA LOBYTE,X\n\
+ PHA\n\
+ RTS\n\
+              </pre>"
+          },
+
+          "SBC": {
+              "mnemonic": "SuBtract with Carry",
+              "flags": [ "S", "V", "Z", "C" ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Immediate",    "SBC #$44",    "$E9", 2, 2 ],
+                  [ "Zero Page",    "SBC $44",     "$E5", 2, 3 ],
+                  [ "Zero Page, X", "SBC $44,X",   "$F5", 2, 4 ],
+                  [ "Absolute",     "SBC $4400",   "$ED", 3, 4 ],
+                  [ "Absolute, X",  "SBC $4400,X", "$FD", 3, 4, 1 ],
+                  [ "Absolute, Y",  "SBC $4400,Y", "$F9", 3, 4, 1 ],
+                  [ "Indirect, X",  "SBC ($44,X)", "$E1", 2, 6 ],
+                  [ "Indirect, Y",  "SBC ($44),Y", "$F1", 2, 5, 1 ]
+              ],
+              "notes": [
+                  "add 1 cycle if page boundary crossed"
+              ],
+              "description": "<p>SBC results are dependant on the setting of the\
+              decimal flag. In decimal mode, subtraction is carried out on the\
+              assumption that the values involved are packed BCD (Binary Coded\
+              Decimal).\
+              <p>\
+              There is no way to subtract without the carry which works as an\
+              inverse borrow. I.e., to subtract you set the carry before the\
+              operation. If the carry is cleared by the operation, it indicates\
+              a borrow occurred."
+          },
+
+          "STA": {
+              "mnemonic": "STore Accumulator",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Zero Page",    "STA $44",     "$85", 2, 3 ],
+                  [ "Zero Page, X", "STA $44,X",   "$95", 2, 4 ],
+                  [ "Absolute",     "STA $4400",   "$8D", 3, 4 ],
+                  [ "Absolute, X",  "STA $4400,X", "$9D", 3, 5 ],
+                  [ "Absolute, Y",  "STA $4400,Y", "$99", 3, 5 ],
+                  [ "Indirect, X",  "STA ($44,X)", "$81", 2, 6 ],
+                  [ "Indirect, Y",  "STA ($44),Y", "$91", 2, 6 ]
+              ]
+          },
+
+          "TSX": {
+              "mnemonic": "Transfer X to Stack pointer",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "TXS",         "$9A", 1, 2 ],
+              ],
+          },
+          "TXS": {
+              "mnemonic": "Transfer Stack pointer to X",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "TSX",         "$BA", 1, 2 ],
+              ],
+          },
+          "PHA": {
+              "mnemonic": "PusH Accumulator",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "PHA",         "$48", 1, 3 ],
+              ],
+          },
+          "PLA": {
+              "mnemonic": "PuLl Accumulator",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "PLA",         "$68", 1, 4 ],
+              ],
+              "description": "The \"PuLl\" operations are known as \"POP\" on\
+              most other microprocessors. With the 6502, the stack is always on\
+              page one ($100-$1FF) and works top down."
+          },
+          "PHP": {
+              "mnemonic": "PusH Processor status",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "PHP",         "$08", 1, 3 ],
+              ],
+          },
+          "PLP": {
+              "mnemonic": "PuLl Processor status",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "PLP",         "$28", 1, 4 ],
+              ],
+              "description": "The \"PuLl\" operations are known as \"POP\" on\
+              most other microprocessors. With the 6502, the stack is always on\
+              page one ($100-$1FF) and works top down."
+          },
+
+          "STX": {
+              "mnemonic": "STore X register",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Zero Page",    "STX $44",     "$86", 2, 3 ],
+                  [ "Zero Page, Y", "STX $44,X",   "$96", 2, 4 ],
+                  [ "Absolute",     "STX $4400",   "$8E", 3, 4 ],
+              ]
+          },
+          "STY": {
+              "mnemonic": "STore Y register",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Zero Page",    "STY $44",     "$84", 2, 3 ],
+                  [ "Zero Page, Y", "STY $44,X",   "$94", 2, 4 ],
+                  [ "Absolute",     "STY $4400",   "$8C", 3, 4 ],
+              ]
+          },
       };
 
       function onClick(self) {
@@ -1073,6 +1357,7 @@ ADC #$FF ; +    -1\n\
       Data borrowed
       from <a href="http://www.6502.org/tutorials/6502opcodes.html">NMOS 6502
       Opcodes</a> by <a href="http://www.theonelab.com/">June Tate-Gans</a>
+      &mdash; <a href="http://github.com/jtgans/6502ops">Code is on GitHub</a>
     </footer>
   </body>
 </html>
