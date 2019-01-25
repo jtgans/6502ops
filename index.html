@@ -1258,10 +1258,16 @@ EXEC\n\
       function onCloseClicked(self) {
           document.getElementsByTagName("description")[0].style.display = "none";
       }
+
+      function onKeyDown(event) {
+          if (event.keyCode == 27) {
+              onCloseClicked();
+          }
+      }
     </script>
   </head>
 
-  <body>
+  <body onkeydown="onKeyDown(event);">
     <h1>6502 / 6510 / 8502 Opcode List</h1>
 
     <categories>
