@@ -18,19 +18,18 @@
 
       categories {
           display: flex;
-          columns: 20px;
-          -webkit-columns: 20px;
-          -moz-columns: 20px;
+          columns: 300px;
+          -webkit-columns: 300px;
+          -moz-columns: 300px;
           flex-direction: column;
           flex-wrap: wrap;
-          max-height: 95%;
-          width: 38.5em;
           align-content: flex-start;
           justify-content: flex-start;
           background: #fff;
           border: 1px solid #000;
           padding: 1em;
           margin: 0px auto 0px auto;
+          width: 300px;
       }
 
       table th { color: white; }
@@ -1253,6 +1252,9 @@ EXEC\n\
 
           description.innerHTML = innerHtml;
           description.style.display = "block";
+
+          var text = document.getElementByTagName("text")[0];
+          text.focus();
       }
 
       function onCloseClicked(self) {
@@ -1264,10 +1266,25 @@ EXEC\n\
               onCloseClicked();
           }
       }
+
+      function onResizeEvent(event) {
+          var columnCount = Math.floor(window.innerWidth / 300);
+          if (columnCount > 2) columnCount = 2;
+
+          var categoryContainer =
+              document.getElementsByTagName("categories")[0];
+          categoryContainer.style.width = columnCount * 305;
+
+          if (window.innerWidth > 600) {
+              categoryContainer.style.height = window.outerHeight * 0.95;
+          } else {
+              categoryContainer.style.height = "auto";
+          }
+      }
     </script>
   </head>
 
-  <body onkeydown="onKeyDown(event);">
+  <body onkeydown="onKeyDown(event);" onresize="onResizeEvent()" onload="onResizeEvent()">
     <h1>6502 / 6510 / 8502 Opcode List</h1>
 
     <categories>
