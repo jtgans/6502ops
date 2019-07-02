@@ -44,6 +44,7 @@
       categories table:nth-child(8) th  { background-color: #47c; }
       categories table:nth-child(9) th  { background-color: #82c; }
       categories table:nth-child(10) th { background-color: #a2c; }
+      categories table:nth-child(11) th { background-color: #c2c; }
 
       categories table:nth-child(1) td  { background-color: #e99; }
       categories table:nth-child(2) td  { background-color: #f88; }
@@ -55,6 +56,7 @@
       categories table:nth-child(8) td  { background-color: #8af; }
       categories table:nth-child(9) td  { background-color: #cbf; }
       categories table:nth-child(10) td { background-color: #ebe; }
+      categories table:nth-child(11) td { background-color: #fce; }
 
       table th  { background-color: #4a4; }
       table td  { background-color: #ada; }
@@ -1362,10 +1364,10 @@ EXEC\n\
 
       <table>
         <th colspan="2">Branching</th>
-        <tr><td><a href="#BCC" onclick="onClick(this);">BCC</a></td><td><a href="#BNE" onclick="onClick(this);">BNE</a></td></tr>
-        <tr><td><a href="#BCS" onclick="onClick(this);">BCS</a></td><td><a href="#BPL" onclick="onClick(this);">BPL</a></td></tr>
-        <tr><td><a href="#BEQ" onclick="onClick(this);">BEQ</a></td><td><a href="#BVC" onclick="onClick(this);">BVC</a></td></tr>
-        <tr><td><a href="#BMI" onclick="onClick(this);">BMI</a></td><td><a href="#BVS" onclick="onClick(this);">BVS</a></td></tr>
+        <tr><td><a href="#BEQ" onclick="onClick(this);">BEQ</a></td><td><a href="#BNE" onclick="onClick(this);">BNE</a></td></tr>
+        <tr><td><a href="#BCC" onclick="onClick(this);">BCC</a></td><td><a href="#BCS" onclick="onClick(this);">BCS</a></td></tr>
+        <tr><td><a href="#BMI" onclick="onClick(this);">BMI</a></td><td><a href="#BPL" onclick="onClick(this);">BPL</a></td></tr>
+        <tr><td><a href="#BVC" onclick="onClick(this);">BVC</a></td><td><a href="#BVS" onclick="onClick(this);">BVS</a></td></tr>
       </table>
 
       <table>
@@ -1376,8 +1378,9 @@ EXEC\n\
 
       <table>
         <th colspan="2">Jump and Return Instructions</th>
-        <tr><td><a href="#JMP" onclick="onClick(this);">JMP</a></td><td><a href="#RTI" onclick="onClick(this);">RTI</a></td></tr>
         <tr><td><a href="#JSR" onclick="onClick(this);">JSR</a></td><td><a href="#RTS" onclick="onClick(this);">RTS</a></td></tr>
+        <tr><td colspan="2"><a href="#JMP" onclick="onClick(this);">JMP</a></td></tr>
+        <tr><td colspan="2"><a href="#RTI" onclick="onClick(this);">RTI</a></td></tr>
       </table>
 
       <table>
@@ -1389,9 +1392,9 @@ EXEC\n\
 
       <table>
         <th colspan="2">Arithmetic and Logic Instructions</th>
-        <tr><td><a href="#ADC" onclick="onClick(this);">ADC</a></td><td><a href="#AND" onclick="onClick(this);">AND</a></td></tr>
-        <tr><td><a href="#BIT" onclick="onClick(this);">BIT</a></td><td><a href="#EOR" onclick="onClick(this);">EOR</a></td></tr>
-        <tr><td><a href="#ORA" onclick="onClick(this);">ORA</a></td><td><a href="#SBC" onclick="onClick(this);">SBC</a></td></tr>
+        <tr><td><a href="#ADC" onclick="onClick(this);">ADC</a></td><td><a href="#SBC" onclick="onClick(this);">SBC</a></td></tr>
+        <tr><td><a href="#BIT" onclick="onClick(this);">BIT</a></td><td><a href="#AND" onclick="onClick(this);">AND</a></td></tr>
+        <tr><td><a href="#ORA" onclick="onClick(this);">ORA</a></td><td><a href="#EOR" onclick="onClick(this);">EOR</a></td></tr>
       </table>
 
       <table>
@@ -1406,13 +1409,18 @@ EXEC\n\
         <tr><td><a href="#CLC" onclick="onClick(this);">CLC</a></td><td><a href="#SEC" onclick="onClick(this);">SEC</a></td></tr>
         <tr><td><a href="#CLD" onclick="onClick(this);">CLD</a></td><td><a href="#SED" onclick="onClick(this);">SED</a></td></tr>
         <tr><td><a href="#CLI" onclick="onClick(this);">CLI</a></td><td><a href="#SEI" onclick="onClick(this);">SEI</a></td></tr>
-        <tr><td><a href="#CLV" onclick="onClick(this);">CLV</a></td><td></td></tr>
+        <tr><td colspan="2"><a href="#CLV" onclick="onClick(this);">CLV</a></td></tr>
       </table>
 
       <table>
         <th colspan="2">Stack Instructions</th>
         <tr><td><a href="#PHA" onclick="onClick(this);">PHA</a></td><td><a href="#PLA" onclick="onClick(this);">PLA</a></td></tr>
         <tr><td><a href="#PHP" onclick="onClick(this);">PHP</a></td><td><a href="#PLP" onclick="onClick(this);">PLP</a></td></tr>
+      </table>
+
+      <table>
+        <th colspan="2">Misc Instructions</th>
+        <tr><td><a href="#NOP" onclick="onClick(this);">NOP</a></td><td><a href="#BRK" onclick="onClick(this);">BRK</a></td></tr>
       </table>
     </categories>
 
