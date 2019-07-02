@@ -34,27 +34,27 @@
       }
 
       table th { color: white; }
-      table:nth-child(1) th { background-color: #800; }
-      table:nth-child(2) th { background-color: #e00; } 
-      table:nth-child(3) th { background-color: #e80; }
-      table:nth-child(4) th { background-color: #da0; }
-      table:nth-child(5) th { background-color: #4a4; }
-      table:nth-child(6) th { background-color: #2aa; }
-      table:nth-child(7) th { background-color: #06c; }
-      table:nth-child(8) th { background-color: #47c; }
-      table:nth-child(9) th { background-color: #82c; }
-      table:nth-child(10) th{ background-color: #a2c; }
+      table:nth-child(1) th  { background-color: #800; }
+      table:nth-child(2) th  { background-color: #e00; }
+      table:nth-child(3) th  { background-color: #e80; }
+      table:nth-child(4) th  { background-color: #da0; }
+      table:nth-child(5) th  { background-color: #4a4; }
+      table:nth-child(6) th  { background-color: #2aa; }
+      table:nth-child(7) th  { background-color: #06c; }
+      table:nth-child(8) th  { background-color: #47c; }
+      table:nth-child(9) th  { background-color: #82c; }
+      table:nth-child(10) th { background-color: #a2c; }
 
-      table:nth-child(1) td { background-color: #e99; }
-      table:nth-child(2) td { background-color: #f88; } 
-      table:nth-child(3) td { background-color: #fb6; }
-      table:nth-child(4) td { background-color: #fc2; }
-      table:nth-child(5) td { background-color: #ada; }
-      table:nth-child(6) td { background-color: #aee; }
-      table:nth-child(7) td { background-color: #6ae; }
-      table:nth-child(8) td { background-color: #8af; }
-      table:nth-child(9) td { background-color: #cbf; }
-      table:nth-child(10) td{ background-color: #ebe; }
+      table:nth-child(1) td  { background-color: #e99; }
+      table:nth-child(2) td  { background-color: #f88; }
+      table:nth-child(3) td  { background-color: #fb6; }
+      table:nth-child(4) td  { background-color: #fc2; }
+      table:nth-child(5) td  { background-color: #ada; }
+      table:nth-child(6) td  { background-color: #aee; }
+      table:nth-child(7) td  { background-color: #6ae; }
+      table:nth-child(8) td  { background-color: #8af; }
+      table:nth-child(9) td  { background-color: #cbf; }
+      table:nth-child(10) td { background-color: #ebe; }
 
       table {
           width: 300px;
@@ -160,6 +160,19 @@
           padding: 0px 0px 10px 10px;
       }
 
+      description operation {
+          display: block;
+          padding: 0px 0px 10px 10px;
+      }
+
+      description bits {
+          display: inline-block;
+          padding: 2px;
+          border: 1px solid #000;
+          font-family: monospace;
+          letter-spacing: 5px;
+      }
+
       description table {
           width: 100%;
           margin: 0px;
@@ -203,7 +216,8 @@
       opcodes = {
           "ADC": {
               "mnemonic": "ADd with Carry",
-              "flags": [ "S", "V", "Z", "C" ],
+              "operation": "A + operand + carry &rarr; A, C",
+              "flags": [ "N", "V", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "ADC #$44",    "$69", 2, 2 ],
@@ -218,14 +232,16 @@
               "notes": [
                   "add 1 cycle if page boundary crossed"
               ],
-              "description": "<p>ADC results are dependant on the setting of the\
+              "description": "<p>ADC adds the operand and carry bit, and stores\
+                  the result in A.<p>ADC results are dependant on the setting of the\
                   decimal flag. In decimal mode, addition is carried out on the\
                   assumption that the values are packed BCD (Binary Coded Decimal).\
                   <p>There is no way to add without carry.",
           },
           "AND": {
               "mnemonic": "bitwise AND with accumulator",
-              "flags": [ "S", "Z" ],
+              "operation": "A AND mem &rarr; A",
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "AND #$44",    "$29", 2, 2 ],
@@ -240,13 +256,16 @@
               "notes": [
                   "add 1 cycle if page boundary crossed"
               ],
+              "description": "<p>AND performs a bitwise AND with the accumulator\
+                  and stores the result in the accumulator.",
           },
           "ASL": {
               "mnemonic": "Arithmetic Shift Left",
-              "flags": [ "S", "Z", "C" ],
+              "operation": "C &larr; <bits>7654321</bits> &larr; 0",
+              "flags": [ "N", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
-                  [ "Accumulator",  "ASL A",       "$0A", 1, 2 ],
+                  [ "Accumulator",  "ASL",         "$0A", 1, 2 ],
                   [ "Zero Page",    "ASL $44",     "$06", 2, 5 ],
                   [ "Zero Page, X", "ASL $44,X",   "$16", 2, 6 ],
                   [ "Absolute",     "ASL $4400",   "$0E", 3, 6 ],
@@ -258,6 +277,9 @@
           },
           "BIT": {
               "mnemonic": "test BITs",
+              "operation": "A AND mem,<br>\
+                            mem<sub>7</sub> &rarr; N,<br>\
+                            mem<sub>6</sub> &rarr; V",
               "flags": [ "N", "V", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
@@ -265,7 +287,7 @@
                   [ "Absolute",     "BIT $4400",   "$2C", 3, 4 ],
               ],
               "description": "<p>BIT sets the Z flag as though the value in the\
-                  address tested were ANDed with the accumulator. The S and V\
+                  address tested were ANDed with the accumulator. The N and V\
                   flags are set to match bits 7 and 6 respectively in the value\
                   stored at the tested address.\
                   <p>BIT is often used to skip one or two following bytes as in:\
@@ -286,6 +308,7 @@ CLOSEX LDA #12        register still at $10\n\
 
           "BPL": {
               "mnemonic": "Branch on PLus",
+              "operation": "Branch to offset when N = 0",
               "flags": [ ],
               "modes": [
                   // mode            syntax         hex   l  t note
@@ -326,6 +349,7 @@ LABEL NOP\n\
           },
           "BMI": {
               "mnemonic": "Branch on MInus",
+              "operation": "Branch to offset when N = 1",
               "flags": [ ],
               "modes": [
                   // mode            syntax         hex   l  t note
@@ -367,6 +391,7 @@ LABEL NOP\
           "BVC": {
               "mnemonic": "Branch on oVerflow Clear",
               "flags": [ ],
+              "operation": "Branch to offset when V = 0",
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Relative",     "BVC $4400",   "$50", 2, 3, 1 ],
@@ -406,6 +431,7 @@ LABEL NOP\n\
           },
           "BVS": {
               "mnemonic": "Branch on oVerflow Set",
+              "operation": "Branch to offset when V = 1",
               "flags": [ ],
               "modes": [
                   // mode            syntax         hex   l  t note
@@ -446,6 +472,7 @@ LABEL NOP\n\
           },
           "BCC": {
               "mnemonic": "Branch on Carry Clear",
+              "operation": "Branch to offset when C = 0",
               "flags": [ ],
               "modes": [
                   // mode            syntax         hex   l  t note
@@ -486,6 +513,7 @@ LABEL NOP\n\
           },
           "BCS": {
               "mnemonic": "Branch on Carry Set",
+              "operation": "Branch to offset when C = 1",
               "flags": [ ],
               "modes": [
                   // mode            syntax         hex   l  t note
@@ -527,6 +555,7 @@ LABEL NOP\n\
           "BNE": {
               "mnemonic": "Branch on Not Equal",
               "flags": [ ],
+              "operation": "Branch to offset when Z = 0",
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Relative",     "BPL $4400",   "$D0", 2, 3, 1 ],
@@ -566,6 +595,7 @@ LABEL NOP\n\
           },
           "BEQ": {
               "mnemonic": "Branch on EQual",
+              "operation": "Branch to offset when Z = 1",
               "flags": [ ],
               "modes": [
                   // mode            syntax         hex   l  t note
@@ -606,7 +636,8 @@ LABEL NOP\n\
           },
 
           "BRK": {
-              "mnemonic": "LoaD Accumulator",
+              "mnemonic": "BReaK to non-maskable interrupt handler",
+              "operation": "Forced interrupt, PC + 2 pushed, SP pushed",
               "flags": [ "B" ],
               "modes": [
                   // mode            syntax         hex   l  t note
@@ -621,7 +652,8 @@ LABEL NOP\n\
 
           "CMP": {
               "mnemonic": "CoMPare accumulator",
-              "flags": [ "S", "Z", "C" ],
+              "operation": "A - mem",
+              "flags": [ "N", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "CMP #$44",    "$C9", 2, 2 ],
@@ -645,7 +677,8 @@ LABEL NOP\n\
           },
           "CPX": {
               "mnemonic": "CoMPare X register",
-              "flags": [ "S", "Z", "C" ],
+              "operation": "X - mem",
+              "flags": [ "N", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "CPX #$44",    "$E0", 2, 2 ],
@@ -661,7 +694,8 @@ LABEL NOP\n\
           },
           "CPY": {
               "mnemonic": "CoMPare Y register",
-              "flags": [ "S", "Z", "C" ],
+              "operation": "Y - mem",
+              "flags": [ "N", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "CPX #$44",    "$C0", 2, 2 ],
@@ -678,13 +712,14 @@ LABEL NOP\n\
 
           "DEC": {
               "mnemonic": "DECrement memory",
-              "flags": [ "S", "Z" ],
+              "operation": "mem - 1 &rarr; mem",
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
-                  [ "Zero Page",    "CMP $44",     "$C5", 2, 3 ],
-                  [ "Zero Page, X", "CMP $44,X",   "$D5", 2, 4 ],
-                  [ "Absolute",     "CMP $4400",   "$CD", 3, 4 ],
-                  [ "Absolute, X",  "CMP $4400,X", "$DD", 3, 4 ],
+                  [ "Zero Page",    "DEC $44",     "$C6", 2, 5 ],
+                  [ "Zero Page, X", "DEC $44,X",   "$D6", 2, 6 ],
+                  [ "Absolute",     "DEC $4400",   "$CE", 3, 6 ],
+                  [ "Absolute, X",  "DEC $4400,X", "$DE", 3, 7 ],
               ],
           },
           "EOR": {
@@ -1140,19 +1175,19 @@ EXEC\n\
           },
 
           "TSX": {
-              "mnemonic": "Transfer X to Stack pointer",
-              "flags": [ ],
-              "modes": [
-                  // mode            syntax         hex   l  t note
-                  [ "Implied",      "TXS",         "$9A", 1, 2 ],
-              ],
-          },
-          "TXS": {
-              "mnemonic": "Transfer Stack pointer to X",
+              "mnemonic": "Transfer Stack Pointer to X",
               "flags": [ ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "TSX",         "$BA", 1, 2 ],
+              ],
+          },
+          "TXS": {
+              "mnemonic": "Transfer X to Stack Pointer",
+              "flags": [ ],
+              "modes": [
+                  // mode            syntax         hex   l  t note
+                  [ "Implied",      "TXS",         "$9A", 1, 2 ],
               ],
           },
           "PHA": {
@@ -1222,6 +1257,12 @@ EXEC\n\
           var innerHtml = "<closebutton onclick=\"onCloseClicked(this);\">&times;</closebutton>";
           innerHtml += "<heading>" + name + "</heading>";
           innerHtml += "<subtext>" + instruction.mnemonic + "</subtext>";
+
+          if (instruction.operation) {
+              innerHtml += "<operation>Operation: ";
+              innerHtml += instruction.operation;
+              innerHtml += "</operation>";
+          }
 
           if (instruction.flags && (instruction.flags.length > 0)) {
               innerHtml += "<flags>Affects Flags: ";
@@ -1404,6 +1445,7 @@ EXEC\n\
       <closebutton onclick="onCloseClicked(this);">&times;</closebutton>
       <heading>LDA</heading>
       <subtext>LoaD Accumulator</subtext>
+      <operation>A + operand + carry &rarr; A, C</operation>
       <flags>Affects Flags: S Z</flags>
       <table>
         <tr><th>Mode</th><th>Syntax</th><th>Hex</th><th>Length</th><th>Time</th></tr>
