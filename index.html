@@ -678,7 +678,7 @@ LABEL NOP\n\
               "description": "<p>Compare sets flags as if a subtraction had been\
                   carried out. If the value in the accumulator is equal or\
                   greater than the compared value, the Carry flag will be set.\
-                  The equal (Z) and sign (S) flags will be set based on equality\
+                  The equal (Z) and sign (N) flags will be set based on equality\
                   or lack thereof and the sign (i.e. A>=$80) of the\
                   accumulator."
           },
@@ -695,7 +695,7 @@ LABEL NOP\n\
               "description": "<p>Compare sets flags as if a subtraction had been\
                   carried out. If the value in the accumulator is equal or\
                   greater than the compared value, the Carry flag will be set.\
-                  The equal (Z) and sign (S) flags will be set based on equality\
+                  The equal (Z) and sign (N) flags will be set based on equality\
                   or lack thereof and the sign (i.e. A>=$80) of the\
                   accumulator."
           },
@@ -712,7 +712,7 @@ LABEL NOP\n\
               "description": "<p>Compare sets flags as if a subtraction had been\
                   carried out. If the value in the accumulator is equal or\
                   greater than the compared value, the Carry flag will be set.\
-                  The equal (Z) and sign (S) flags will be set based on equality\
+                  The equal (Z) and sign (N) flags will be set based on equality\
                   or lack thereof and the sign (i.e. A>=$80) of the\
                   accumulator."
           },
@@ -731,7 +731,7 @@ LABEL NOP\n\
           },
           "EOR": {
               "mnemonic": "bitwise Exclusive OR",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "EOR #$44",    "$49", 2, 2 ],
@@ -855,7 +855,7 @@ ADC #$FF ; +    -1\n\
 
           "INC": {
               "mnemonic": "INCrement memory",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Zero Page",    "INC $44",     "$E6", 2, 5 ],
@@ -898,7 +898,7 @@ ADC #$FF ; +    -1\n\
 
           "LDA": {
               "mnemonic": "LoaD Accumulator",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "LDA #$44",    "$A9", 2, 2 ],
@@ -916,7 +916,7 @@ ADC #$FF ; +    -1\n\
           },
           "LDX": {
               "mnemonic": "LoaD X register",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "LDX #$44",    "$A2", 2, 2 ],
@@ -931,7 +931,7 @@ ADC #$FF ; +    -1\n\
           },
           "LDY": {
               "mnemonic": "LoaD Y register",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "LDY #$44",    "$A0", 2, 2 ],
@@ -947,7 +947,7 @@ ADC #$FF ; +    -1\n\
 
           "LSR": {
               "mnemonic": "Logical Shift Right",
-              "flags": [ "S", "Z", "C" ],
+              "flags": [ "N", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Accumulator",  "LSR A",       "$4A", 1, 2 ],
@@ -974,7 +974,7 @@ ADC #$FF ; +    -1\n\
 
           "ORA": {
               "mnemonic": "bitwise OR with Accumulator",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "ORA #$44",    "$09", 2, 2 ],
@@ -993,7 +993,7 @@ ADC #$FF ; +    -1\n\
 
           "TAX": {
               "mnemonic": "Transfer A to X",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "TAX",         "$AA", 1, 2 ],
@@ -1001,7 +1001,7 @@ ADC #$FF ; +    -1\n\
           },
           "TXA": {
               "mnemonic": "Transfer X to A",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "TXA",         "$8A", 1, 2 ],
@@ -1009,7 +1009,7 @@ ADC #$FF ; +    -1\n\
           },
           "DEX": {
               "mnemonic": "DEcrement X",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "DEX",         "$CA", 1, 2 ],
@@ -1017,7 +1017,7 @@ ADC #$FF ; +    -1\n\
           },
           "INX": {
               "mnemonic": "INcrement X",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "INX",         "$E8", 1, 2 ],
@@ -1025,7 +1025,7 @@ ADC #$FF ; +    -1\n\
           },
           "TAY": {
               "mnemonic": "Transfer A to Y",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "TAY",         "$A8", 1, 2 ],
@@ -1033,7 +1033,7 @@ ADC #$FF ; +    -1\n\
           },
           "TYA": {
               "mnemonic": "Transfer Y to A",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "TYA",         "$98", 1, 2 ],
@@ -1041,7 +1041,7 @@ ADC #$FF ; +    -1\n\
           },
           "DEY": {
               "mnemonic": "DEcrement Y",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "DEY",         "$88", 1, 2 ],
@@ -1049,7 +1049,7 @@ ADC #$FF ; +    -1\n\
           },
           "INY": {
               "mnemonic": "INcrement Y",
-              "flags": [ "S", "Z" ],
+              "flags": [ "N", "Z" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "INY",         "$C8", 1, 2 ],
@@ -1058,7 +1058,7 @@ ADC #$FF ; +    -1\n\
 
           "ROL": {
               "mnemonic": "ROtate Left",
-              "flags": [ "S", "Z", "C" ],
+              "flags": [ "N", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Accumulator",  "ROL A",       "$2A", 1, 2 ],
@@ -1073,7 +1073,7 @@ ADC #$FF ; +    -1\n\
           },
           "ROR": {
               "mnemonic": "ROtate Right",
-              "flags": [ "S", "Z", "C" ],
+              "flags": [ "N", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Accumulator",  "ROL A",       "$6A", 1, 2 ],
@@ -1089,7 +1089,7 @@ ADC #$FF ; +    -1\n\
 
           "RTI": {
               "mnemonic": "ReTurn from Interrupt",
-              "flags": [ "S", "Z", "C", "I", "V" ],
+              "flags": [ "N", "Z", "C", "I", "V" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "RTI",         "$40", 1, 6 ],
@@ -1103,7 +1103,7 @@ ADC #$FF ; +    -1\n\
           },
           "RTS": {
               "mnemonic": "ReTurn from Subroutine",
-              "flags": [ "S", "Z", "C", "I", "V" ],
+              "flags": [ "N", "Z", "C", "I", "V" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Implied",      "RTS",         "$60", 1, 6 ],
@@ -1140,7 +1140,7 @@ EXEC\n\
 
           "SBC": {
               "mnemonic": "SuBtract with Carry",
-              "flags": [ "S", "V", "Z", "C" ],
+              "flags": [ "N", "V", "Z", "C" ],
               "modes": [
                   // mode            syntax         hex   l  t note
                   [ "Immediate",    "SBC #$44",    "$E9", 2, 2 ],
